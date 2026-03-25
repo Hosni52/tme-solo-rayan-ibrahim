@@ -26,7 +26,7 @@ from pystk2_gymnasium.envs import STKRaceMultiEnv, AgentSpec
 from pystk2_gymnasium.definitions import CameraMode
 
 MAX_TEAMS = 1 # 1 seul agent doit exister
-MAX_STEPS = 200 # Il doit faire 200 pas de course
+MAX_STEPS = 800 # Il doit faire 200 pas de course mais on triple pour lui laisser le temps de faire sa marche arrière
 NB_RACES = 1
 
 # Get the current timestamp
@@ -132,7 +132,7 @@ def single_race(env, agents, names, scores):
         for i in range(MAX_TEAMS):
             str = f"{i}"
             try:
-                actions[str] = agents[i].choose_action(obs[str])
+                actions[str] = agents[i].choose_action(obs[str], steps)
             except Exception as e:
                 print(f"Team {i+1} error: {e}")
                 actions[str] = default_action

@@ -22,7 +22,7 @@ class Agent7(KartAgent):
     def endOfTrack(self):
         return self.isEnd
 
-    def choose_action(self, obs):
+    def choose_action(self, obs, steps):
 
         paths = obs['paths_end']
 
@@ -44,8 +44,10 @@ class Agent7(KartAgent):
             # On cherche le premier point qui dépasse notre distance de visée calculée
             for p in paths:
                 if p[2] > lookahead:
-                    target_vector = p
-                    break
+                        target_vector = p
+                        break
+
+            
 
             # On enregistre l'écart latéral x et l'écart avant z du point cible
             x = target_vector[0]
@@ -68,10 +70,32 @@ class Agent7(KartAgent):
         # On limite entre -1 et 1
         steering_normalise = np.clip(steering, -1, 1)
 
+        # Si on a fait 200 steps alors on recule
+        if steps >= 200:
+            accel = 0
+            brake = True
+            
+            # paths starts renvoie la liste des noeuds avant le kart, si la liste est vide par défaut on met le steering à 0
+            if len(obs["paths_start"][0]) <= 0:
+                steering = 0
+            else:
+                # sinon si on est à gauche du point on tourne à droite 
+                if obs["paths_start"][0][0] < 0:
+                    print("negatif")
+                    steering = -0.43
+                else: # et si on est à droite on tourne à gauche
+                    print("positif")
+                    steering = 0.43
+
+
+        else: # Sinon on avance
+            accel = 0.5
+            brake = False
+
         action = {
-            "acceleration": 0.5,
+            "acceleration": accel,
             "steer": steering,
-            "brake": False, # bool(random.getrandbits(1)),
+            "brake": brake, # bool(random.getrandbits(1)),
             "drift": 0, #bool(random.getrandbits(1)),
             "nitro": 0, #bool(random.getrandbits(1)),
             "rescue": 0, #bool(random.getrandbits(1)),
