@@ -25,8 +25,8 @@ from agents.team7.agent7 import Agent7
 from pystk2_gymnasium.envs import STKRaceMultiEnv, AgentSpec
 from pystk2_gymnasium.definitions import CameraMode
 
-MAX_TEAMS = 7
-MAX_STEPS = 1000
+MAX_TEAMS = 1 # 1 seul agent doit exister
+MAX_STEPS = 200 # Il doit faire 200 pas de course
 NB_RACES = 1
 
 # Get the current timestamp
@@ -101,12 +101,13 @@ def create_race():
     agents = []
     names = []
 
-    agents.append(Agent1(env, path_lookahead=3))
-    agents.append(Agent2(env, path_lookahead=3))
-    agents.append(Agent3(env, path_lookahead=3))
-    agents.append(Agent4(env, path_lookahead=3))
-    agents.append(Agent5(env, path_lookahead=3))
-    agents.append(Agent6(env, path_lookahead=3))
+    # On ajouter uniquement l'agent 7
+    #agents.append(Agent1(env, path_lookahead=3))
+    #agents.append(Agent2(env, path_lookahead=3))
+    #agents.append(Agent3(env, path_lookahead=3))
+    #agents.append(Agent4(env, path_lookahead=3))
+    #agents.append(Agent5(env, path_lookahead=3))
+    #agents.append(Agent6(env, path_lookahead=3))
     agents.append(Agent7(env, path_lookahead=3))
     np.random.shuffle(agents)
 
@@ -125,6 +126,7 @@ def single_race(env, agents, names, scores):
     positions = []
     distances = []
     while not done and steps < MAX_STEPS:
+        print(f"Le nombre de pas de temps écoulé est : {steps} ")
         actions = {}
         env.world_update()
         for i in range(MAX_TEAMS):
