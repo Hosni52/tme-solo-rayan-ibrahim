@@ -25,7 +25,7 @@ from agents.team7.agent7 import Agent7
 from pystk2_gymnasium.envs import STKRaceMultiEnv, AgentSpec
 from pystk2_gymnasium.definitions import CameraMode
 
-MAX_TEAMS = 1
+MAX_TEAMS = 1 # On change la constante à 1 pour afficher uniquement l'agent 6
 MAX_STEPS = 1000
 NB_RACES = 1
 
@@ -101,6 +101,7 @@ def create_race():
     agents = []
     names = []
 
+    # On ajoute uniquement l'agent 6 pour la course
     #agents.append(Agent1(env, path_lookahead=3))
     #agents.append(Agent2(env, path_lookahead=3))
     #agents.append(Agent3(env, path_lookahead=3))
